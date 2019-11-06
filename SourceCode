@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+int n,bac;
+
+
+set <int> bacMot;
+vector <int> dinh[100001];
+
+
+void nhapDuLieu()
+{
+	cin>>n;
+	for ( int i=1 ; i<=n ; i++)
+	{
+		int temp1,temp2;
+		cin>>temp1>>temp2;
+		dinh[temp1].push_back(temp2);
+		dinh[temp2].push_back(temp1);
+	}
+}
+
+
+void xoaDinh(int x)
+{
+	int temp= dinh[x][0];
+	cout<<temp<<" ";
+	for ( int i=0 ; i<dinh[temp].size() ;i++)
+	{
+		if (dinh[temp][i]==x) dinh[temp].erase(dinh[temp].begin()+i);
+	}
+	if ( (dinh[temp].size()==1) && (temp!=0) ) bacMot.insert(temp);
+		
+}
+
+void find()
+{
+	for (int i=1 ; i<=n ; i++)
+	{
+		if ( dinh[i].size()==1) bacMot.insert(i);
+	}
+	for (int i=1 ;i<n ;i++)
+	{
+		int temp = *bacMot.begin();
+		bacMot.erase(bacMot.begin());
+		xoaDinh(temp);
+	}
+}
+
+
+int main()
+{
+	freopen("input.txt", "r", stdin);
+	nhapDuLieu();
+	find();
+}
